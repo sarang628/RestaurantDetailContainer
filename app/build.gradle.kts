@@ -98,5 +98,14 @@ dependencies {
     implementation(libs.material3.windows.size)
     implementation(libs.lifecycle.runtime.compose)
 
+    implementation(libs.torangRepository)
+    implementation(libs.restaurantInfo)
+    implementation(libs.composePermissionTest)
+    implementation(libs.accompanist.permissions)
+    implementation(libs.play.services.location)
+    implementation(libs.kotlin.coroutines.play)
+    implementation(libs.commonImageLoader)
+    implementation(libs.restaurantOverView)
+
     implementation(project(":library"))
 }

@@ -1,0 +1,18 @@
+[submodule "gradle/TorangToml"]
+	path = gradle/TorangToml
+	url = https://github.com/sarang628/TorangToml.git
+[submodule "app/src/main/java/com/sarang/torang/di/restaurant_overview_di"]
+	path = app/src/main/java/com/sarang/torang/di/restaurant_overview_di
+	url = https://github.com/sarang628/restaurant_overview_di.git
+[submodule "app/src/main/java/com/sarang/torang/di/restauarnt_info_di"]
+	path = app/src/main/java/com/sarang/torang/di/restauarnt_info_di
+	url = https://github.com/sarang628/restauarnt_info_di.git
+[submodule "app/src/main/java/com/sarang/torang/di/restaurant_detail_di"]
+	path = app/src/main/java/com/sarang/torang/di/restaurant_detail_di
+	url = https://github.com/sarang628/restaurant_detail_di.git
+[submodule "app/src/main/java/com/sarang/torang/di/image"]
+	path = app/src/main/java/com/sarang/torang/di/image
+	url = https://github.com/sarang628/image.git
+[submodule "app/src/main/java/com/sarang/torang/di/pinchzoom"]
+	path = app/src/main/java/com/sarang/torang/di/pinchzoom
+	url = https://github.com/sarang628/pinchzoom.git

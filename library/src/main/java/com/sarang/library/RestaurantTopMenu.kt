@@ -1,6 +1,5 @@
 package com.sarang.library
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.PrimaryTabRow
@@ -8,7 +7,7 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.style.TextOverflow
@@ -20,17 +19,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RestaurntTopMenu(navController: NavController) {
+fun RestaurantTopMenu(navController: NavController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    var state by remember { mutableStateOf(0) }
-    val titles = listOf("info", "menu", "review", "gallery")
-    Log.d("RestaurntTopMenu1", currentDestination?.route.toString())
+    var state by remember { mutableIntStateOf(0) }
+    val titles = listOf("overview", "menu", "review", "gallery")
     Column {
         PrimaryTabRow(
-            selectedTabIndex = if (currentDestination == null) 0 else titles.indexOf(
-                currentDestination.route.toString()
-            )
+            selectedTabIndex = if (currentDestination == null) 0 else titles.indexOf(currentDestination.route.toString())
         ) {
             titles.forEachIndexed { index, title ->
                 Tab(
