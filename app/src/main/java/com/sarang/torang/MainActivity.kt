@@ -10,14 +10,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import com.sarang.library.compose.type.LocalRestaurantOverviewInRestaurantDetailContainer
-import com.sarang.library.compose.type.RestaurantOverviewInRestaurantDetailContainer
-import com.sarang.torang.compose.restaurantdetail.RestaurantOverViewScreen
-import com.sarang.torang.ui.theme.RestaurantDetailContailerTheme
-import com.sarang.torang.compose.type.LocalRestaurantOverViewImageLoader
-import com.sarang.torang.compose.type.LocalRestaurantOverviewRestaurantInfo
 import com.sarang.torang.di.restaurant_detail_container_di.customRestaurantOverviewInRestaurantDetailContainer
-import com.sarang.torang.di.restaurant_overview_di.restaurantOverViewImageLoader
-import com.sarang.torang.di.restaurant_overview_di.restaurantOverViewRestaurantInfo
+import com.sarang.torang.ui.theme.RestaurantDetailContailerTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
