@@ -65,6 +65,7 @@ accompanist = "0.32.0"
 play-services-location = "21.1.0"
 coroutines = "1.7.3"
 restaurantInfoVersion = "b922514012"
+restaurantMenusVersion = "396e8056be"
 
 # @formatter:off
 [libraries]
@@ -151,6 +152,7 @@ torangGrid                      = { group = "com.github.sarang628", name = "Tora
 restaurantInfo                  = { group = "com.github.sarang628", name = "RestaurantInfo",        version.ref = "restaurantInfoVersion" }
 composePermissionTest           = { group = "com.github.sarang628", name = "ComposePermissionTest", version.ref = "composePermissionTestVersion" }
 restaurantOverView              = { group = "com.github.sarang628", name = "RestaurantOverView",    version.ref = "restaurantOverViewVersion" }
+restaurantMenus                 = { group = "com.github.sarang628", name = "RestaurantMenus",       version.ref = "restaurantMenusVersion" }
 themes                          = { group = "com.github.bingley1",  name = "Themes",                version.ref = "themesVersion" }
 feature-delivery                = { group = "com.google.android.play", name = "feature-delivery",   version.ref = "featureDeliveryVersion"}
 

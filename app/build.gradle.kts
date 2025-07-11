@@ -106,6 +106,7 @@ dependencies {
     implementation(libs.kotlin.coroutines.play)
     implementation(libs.commonImageLoader)
     implementation(libs.restaurantOverView)
+    implementation(libs.restaurantMenus)
 
     implementation(project(":library"))
 }
