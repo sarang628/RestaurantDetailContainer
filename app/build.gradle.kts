@@ -107,6 +107,8 @@ dependencies {
     implementation(libs.commonImageLoader)
     implementation(libs.restaurantOverView)
     implementation(libs.restaurantMenus)
+    implementation(libs.restaurantReview)
+    implementation(libs.restaurantGallery)
 
     implementation(project(":library"))
 }
