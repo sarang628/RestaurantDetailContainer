@@ -8,7 +8,10 @@
     <mapping directory="$PROJECT_DIR$/app/src/main/java/com/sarang/torang/di/restauarnt_info_di" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/app/src/main/java/com/sarang/torang/di/restaurant_detail_container_di" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/app/src/main/java/com/sarang/torang/di/restaurant_detail_di" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/src/main/java/com/sarang/torang/di/restaurant_gallery_di" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/src/main/java/com/sarang/torang/di/restaurant_menu_di" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/app/src/main/java/com/sarang/torang/di/restaurant_overview_di" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/app/src/main/java/com/sarang/torang/di/restaurant_review_di" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/gradle/TorangToml" vcs="Git" />
   </component>
 </project>

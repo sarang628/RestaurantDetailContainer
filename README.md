@@ -17,23 +17,17 @@ ependencies {
 
 ## [Hilt 추가](https://github.com/sarang628/HiltTest?tab=readme-ov-file#for-torang)
 
-```kotlin
-CompositionLocalProvider(LocalRestaurantOverviewInRestaurantDetailContainer provides customRestaurantOverviewInRestaurantDetailContainer) {
-    RestaurantNavScreen(restaurantId = 234)
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-val customRestaurantOverviewInRestaurantDetailContainer : RestaurantOverviewInRestaurantDetailContainer = {
-    CompositionLocalProvider(
-        LocalRestaurantOverViewImageLoader provides restaurantOverViewImageLoader,
-        LocalRestaurantOverviewRestaurantInfo provides restaurantOverViewRestaurantInfo,
-    ) {
-        RestaurantOverViewScreen(restaurantId = 234)
-    }
-}
-```
-
 ## [RestaurantOverView](https://github.com/sarang628/RestaurantOverView)
 ## [RestaurantMenus](https://github.com/sarang628/RestaurantMenus)
+
+```kotlin
+CompositionLocalProvider(
+    LocalRestaurantOverviewInRestaurantDetailContainer provides customRestaurantOverviewInRestaurantDetailContainer,
+    LocalRestaurantMenuInRestaurantDetailContainer provides customRestaurantMenuInRestaurantDetailContainer,
+    LocalRestaurantReviewInRestaurantDetailContainer provides customRestaurantReviewInRestaurantDetailContainer,
+    LocalRestaurantGalleryInRestaurantDetailContainer provides customRestaurantGalleryInRestaurantDetailContainer,
+) {
+    RestaurantNavScreen(restaurantId = 234)
+}
 
 
