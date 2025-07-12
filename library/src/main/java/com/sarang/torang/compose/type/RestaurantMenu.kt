@@ -5,7 +5,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 
-typealias RestaurantMenuInRestaurantDetailContainer = @Composable () -> Unit
+typealias RestaurantMenuInRestaurantDetailContainer = @Composable (Int) -> Unit
 
 val LocalRestaurantMenuInRestaurantDetailContainer =
     compositionLocalOf<RestaurantMenuInRestaurantDetailContainer> {

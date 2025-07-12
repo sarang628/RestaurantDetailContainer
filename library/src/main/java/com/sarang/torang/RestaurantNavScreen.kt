@@ -34,7 +34,7 @@ import com.sarang.torang.compose.type.LocalRestaurantReviewInRestaurantDetailCon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun RestaurantNavScreen(onBack: () -> Unit, restaurantName: String) {
+private fun RestaurantNavScreen(onBack: () -> Unit, restaurantName: String, restaurantId: Int) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val snackBarHostState = remember { SnackbarHostState() }
     val navController = rememberNavController()
@@ -45,10 +45,10 @@ private fun RestaurantNavScreen(onBack: () -> Unit, restaurantName: String) {
             Column(modifier = Modifier.padding(paddingValues = paddingValues)) {
                 RestaurantTopMenu(navController)
                 NavHost(navController = navController, startDestination = "overview") {
-                    composable("overview") { LocalRestaurantOverviewInRestaurantDetailContainer.current.invoke() }
-                    composable("menu") { LocalRestaurantMenuInRestaurantDetailContainer.current.invoke() }
-                    composable("review") { LocalRestaurantReviewInRestaurantDetailContainer.current.invoke() }
-                    composable("gallery") { LocalRestaurantGalleryInRestaurantDetailContainer.current.invoke() }
+                    composable("overview") { LocalRestaurantOverviewInRestaurantDetailContainer.current.invoke(restaurantId) }
+                    composable("menu") { LocalRestaurantMenuInRestaurantDetailContainer.current.invoke(restaurantId) }
+                    composable("review") { LocalRestaurantReviewInRestaurantDetailContainer.current.invoke(restaurantId) }
+                    composable("gallery") { LocalRestaurantGalleryInRestaurantDetailContainer.current.invoke(restaurantId) }
                 }
             }
         })
@@ -81,11 +81,11 @@ fun RestaurantNavScreen(
     onBack: (() -> Unit) = { Log.w(tag, "onBack doesn't set") },
 ) {
     LaunchedEffect(restaurantId) { viewmodel.fetch(restaurantId) }
-    RestaurantNavScreen(onBack, viewmodel.restaurantName)
+    RestaurantNavScreen(onBack, viewmodel.restaurantName, restaurantId)
 }
 
 @Preview
 @Composable
 fun PreviewRestaurantNavScreen() {
-    RestaurantNavScreen(onBack = {}, "restaurantName")
+    RestaurantNavScreen(onBack = {}, "restaurantName", restaurantId = 234)
 }
