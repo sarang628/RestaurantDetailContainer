@@ -99,6 +99,9 @@ dependencies {
     implementation(libs.lifecycle.runtime.compose)
 
     implementation(libs.torangRepository)
+    implementation(libs.torangdatabase)
+    implementation(libs.torangnetwork)
+    implementation(libs.theme)
     implementation(libs.restaurantInfo)
     implementation(libs.composePermissionTest)
     implementation(libs.accompanist.permissions)
@@ -109,6 +112,15 @@ dependencies {
     implementation(libs.restaurantMenus)
     implementation(libs.restaurantReview)
     implementation(libs.restaurantGallery)
+    implementation(libs.expandableText)
+    implementation(libs.basefeed)
+    implementation(libs.feed)
+    implementation(libs.mui3scrolltorefresh)
+    implementation(libs.bottomdetectlazycolunm)
+    implementation("androidx.media3:media3-session:1.2.1")
+    implementation("androidx.media3:media3-exoplayer:1.2.1")
+    implementation("androidx.media3:media3-ui:1.2.1")
+    implementation("androidx.media3:media3-exoplayer-hls:1.2.1")
 
     implementation(project(":library"))
 }
