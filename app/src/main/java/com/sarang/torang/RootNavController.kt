@@ -15,4 +15,6 @@ class RootNavController {
     fun map(i: Int) {
 
     }
+
+    fun modReview(): (Int) -> Unit { return  {}}
 }

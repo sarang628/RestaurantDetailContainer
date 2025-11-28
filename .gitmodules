@@ -46,3 +46,18 @@
 [submodule "app/src/main/java/com/sarang/torang/di/pulltorefresh"]
 	path = app/src/main/java/com/sarang/torang/di/pulltorefresh
 	url = https://github.com/sarang628/pulltorefresh.git
+[submodule "app/src/main/java/com/sarang/torang/di/dialogsbox_di"]
+	path = app/src/main/java/com/sarang/torang/di/dialogsbox_di
+	url = https://github.com/sarang628/dialogsbox_di.git
+[submodule "app/src/main/java/com/sarang/torang/di/bottomsheet_di"]
+	path = app/src/main/java/com/sarang/torang/di/bottomsheet_di
+	url = https://github.com/sarang628/bottomsheet_di.git
+[submodule "app/src/main/java/com/sarang/torang/di/report_di"]
+	path = app/src/main/java/com/sarang/torang/di/report_di
+	url = https://github.com/sarang628/report_di.git
+[submodule "app/src/main/java/com/sarang/torang/di/comment_di"]
+	path = app/src/main/java/com/sarang/torang/di/comment_di
+	url = https://github.com/sarang628/comment_di.git
+[submodule "app/src/main/java/com/sarang/torang/di/torang_security_di"]
+	path = app/src/main/java/com/sarang/torang/di/torang_security_di
+	url = https://github.com/sarang628/torang_security_di.git
