@@ -34,14 +34,18 @@ import com.sarang.torang.compose.type.LocalRestaurantReviewInRestaurantDetailCon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun RestaurantNavScreen(onBack: () -> Unit, restaurantName: String, restaurantId: Int) {
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-    val snackBarHostState = remember { SnackbarHostState() }
-    val navController = rememberNavController()
+private fun RestaurantNavScreen(onBack           : () -> Unit,
+                                restaurantName   : String,
+                                restaurantId     : Int,
+                                snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }) {
+    val scrollBehavior    = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
+    val navController     = rememberNavController()
     Scaffold(
-        topBar = { TopAppBar(navigationIcon = arrowBack(onBack), title = restaurantTitleText(restaurantName), scrollBehavior = scrollBehavior) },
-        snackbarHost = { SnackbarHost(snackBarHostState) },
-        content = { paddingValues ->
+        topBar       = { TopAppBar(navigationIcon = arrowBack(onBack),
+                             title          = restaurantTitleText(restaurantName),
+                             scrollBehavior = scrollBehavior) },
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+        content      = { paddingValues ->
             Column(modifier = Modifier.padding(paddingValues = paddingValues)) {
                 RestaurantTopMenu(navController)
                 NavHost(navController = navController, startDestination = "overview") {
