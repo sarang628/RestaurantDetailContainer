@@ -83,9 +83,13 @@ fun RestaurantNavScreen(
     progressTintColor: Color? = null,
     onImage: (Int) -> Unit = { { Log.w(tag, "onImage doesn't set") } },
     onBack: (() -> Unit) = { Log.w(tag, "onBack doesn't set") },
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
 ) {
     LaunchedEffect(restaurantId) { viewmodel.fetch(restaurantId) }
-    RestaurantNavScreen(onBack, viewmodel.restaurantName, restaurantId)
+    RestaurantNavScreen(onBack            = onBack,
+                        restaurantName    = viewmodel.restaurantName,
+                        restaurantId      = restaurantId,
+                        snackbarHostState = snackbarHostState)
 }
 
 @Preview
