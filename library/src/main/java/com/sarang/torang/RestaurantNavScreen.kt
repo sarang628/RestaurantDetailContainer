@@ -3,6 +3,8 @@ package com.sarang.torang
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -40,6 +43,7 @@ private fun RestaurantNavScreen(onBack           : () -> Unit,
                                 snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }) {
     val scrollBehavior    = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val navController     = rememberNavController()
+    val pagerState        = rememberPagerState(0) { 4 }
     Scaffold(
         topBar       = { TopAppBar(navigationIcon = arrowBack(onBack),
                              title          = restaurantTitleText(restaurantName),
@@ -47,12 +51,21 @@ private fun RestaurantNavScreen(onBack           : () -> Unit,
         snackbarHost = { SnackbarHost(snackbarHostState) },
         content      = { paddingValues ->
             Column(modifier = Modifier.padding(paddingValues = paddingValues)) {
-                RestaurantTopMenu(navController)
-                NavHost(navController = navController, startDestination = "overview") {
+                RestaurantTopMenu(pagerState = pagerState)
+                /*NavHost(navController = navController, startDestination = "overview") {
                     composable("overview") { LocalRestaurantOverviewInRestaurantDetailContainer.current.invoke(restaurantId) }
                     composable("menu") { LocalRestaurantMenuInRestaurantDetailContainer.current.invoke(restaurantId) }
                     composable("review") { LocalRestaurantReviewInRestaurantDetailContainer.current.invoke(restaurantId) }
                     composable("gallery") { LocalRestaurantGalleryInRestaurantDetailContainer.current.invoke(restaurantId) }
+                }*/
+                HorizontalPager(state = pagerState,
+                                beyondViewportPageCount = 3) {
+                    when(it){
+                        0 -> { LocalRestaurantOverviewInRestaurantDetailContainer.current.invoke(restaurantId) }
+                        1 -> { LocalRestaurantMenuInRestaurantDetailContainer.current.invoke(restaurantId) }
+                        2 -> { LocalRestaurantReviewInRestaurantDetailContainer.current.invoke(restaurantId) }
+                        3 -> { LocalRestaurantGalleryInRestaurantDetailContainer.current.invoke(restaurantId) }
+                    }
                 }
             }
         })
@@ -70,7 +83,11 @@ fun arrowBack(onBack: () -> Unit) : @Composable () -> Unit = {
 
 @Composable
 fun restaurantTitleText(restaurantName: String): @Composable () -> Unit = {
-    Text(text = restaurantName, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+    Text(text = restaurantName,
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis)
 }
 
 
