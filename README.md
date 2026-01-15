@@ -18,6 +18,7 @@ ependencies {
 
 # Tech Stack
 - JetpackCompose
+  - enterAlwaysScrollBehavior
 - Android App Architecture
 
 ## [Hilt 추가](https://github.com/sarang628/HiltTest?tab=readme-ov-file#for-torang)
@@ -34,5 +35,3 @@ CompositionLocalProvider(
 ) {
     RestaurantNavScreen(restaurantId = 234)
 }
-
-

@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sarang.torang.compose.restaurantdetailcontainer.type.LocalRestaurantGalleryInRestaurantDetailContainer
@@ -37,7 +38,8 @@ private fun RestaurantNavScreen(onBack           : () -> Unit,
                                    scrollBehavior = scrollBehavior) },
         snackbarHost = { SnackbarHost(snackBarHostState) },
         content      = { paddingValues ->
-            Column(modifier = Modifier.padding(paddingValues = paddingValues)) {
+            Column(modifier = Modifier.padding(paddingValues = paddingValues)
+                                      .nestedScroll(scrollBehavior.nestedScrollConnection)) {
                 RestaurantTopMenu(pagerState = pagerState)
                 HorizontalPager(state = pagerState,
                                 beyondViewportPageCount = 3) {
