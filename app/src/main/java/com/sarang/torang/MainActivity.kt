@@ -19,20 +19,27 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.sarang.torang.data.RestaurantWithFiveImages
 import com.sarang.torang.di.restaurant_detail_container_di.provideRestaurantDetailContainer
 import com.sarang.torang.repository.FindRepository
 import com.sryang.torang.ui.TorangTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -57,7 +64,15 @@ class MainActivity : ComponentActivity() {
     fun Test(){
         val scaffoldState = rememberBottomSheetScaffoldState()
         val scope = rememberCoroutineScope()
-        val restaurants by findRepository.restaurants.collectAsStateWithLifecycle()
+        var restaurants : List<RestaurantWithFiveImages> by remember { mutableStateOf(listOf()) }
+        LaunchedEffect(Unit) {
+            findRepository.restaurants
+                .stateIn(scope = scope,
+                    started = SharingStarted.Eagerly,
+                    initialValue = listOf()).collect {
+                        restaurants = it
+                }
+        }
         var selectedRestaurant by remember { mutableIntStateOf(0) }
 
 
