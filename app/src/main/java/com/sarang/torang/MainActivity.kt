@@ -20,6 +20,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -57,7 +58,7 @@ class MainActivity : ComponentActivity() {
         val scaffoldState = rememberBottomSheetScaffoldState()
         val scope = rememberCoroutineScope()
         val restaurants by findRepository.restaurants.collectAsStateWithLifecycle()
-        var selectedRestaurant by remember { mutableStateOf(0) }
+        var selectedRestaurant by remember { mutableIntStateOf(0) }
 
 
         val sheetContent = @Composable {

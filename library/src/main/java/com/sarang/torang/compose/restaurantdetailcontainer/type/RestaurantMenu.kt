@@ -1,4 +1,4 @@
-package com.sarang.torang.compose.type
+package com.sarang.torang.compose.restaurantdetailcontainer.type
 
 import android.util.Log
 import androidx.compose.material3.Text

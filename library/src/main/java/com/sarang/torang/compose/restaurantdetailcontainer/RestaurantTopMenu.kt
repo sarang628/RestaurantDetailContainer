@@ -1,4 +1,4 @@
-package com.sarang.torang
+package com.sarang.torang.compose.restaurantdetailcontainer
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.pager.PagerState
@@ -8,16 +8,8 @@ import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.currentBackStackEntryAsState
 import kotlinx.coroutines.launch
 
 

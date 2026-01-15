@@ -1,4 +1,4 @@
-package com.sarang.torang
+package com.sarang.torang.compose.restaurantdetailcontainer
 
 import android.util.Log
 import androidx.compose.runtime.getValue
@@ -6,8 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sarang.torang.usecase.FindRestaurantNameByRestaurantIdUseCase
-
+import com.sarang.torang.usecase.restaurantdetailcontainer.FindRestaurantNameByRestaurantIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
