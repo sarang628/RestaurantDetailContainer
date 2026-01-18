@@ -41,23 +41,28 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var findRepository: FindRepository
+
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             TorangTheme {
-                Test()
+                TestContainer()
             }
         }
     }
 
-    @Inject
-    lateinit var findRepository: FindRepository
+    @Composable
+    fun RestaurantDetailContainerTest(selectedRestaurant : Int){
+        provideRestaurantDetailContainer().invoke(selectedRestaurant)
+    }
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun Test(){
+    fun TestContainer(){
         val scaffoldState = rememberBottomSheetScaffoldState()
         val scope = rememberCoroutineScope()
         var restaurants : List<RestaurantWithFiveImages> by remember { mutableStateOf(listOf()) }
@@ -107,7 +112,7 @@ class MainActivity : ComponentActivity() {
             sheetContent = { sheetContent.invoke() },
         ) { innerPadding ->
             Box(Modifier.padding(innerPadding)){
-                provideRestaurantDetailContainer().invoke(selectedRestaurant)
+                RestaurantDetailContainerTest(selectedRestaurant)
 
                 floatingButton(modifier = Modifier
                     .align(Alignment.BottomEnd)

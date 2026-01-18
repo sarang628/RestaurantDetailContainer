@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -35,6 +36,7 @@ private fun RestaurantNavScreen(onBack           : () -> Unit,
     Scaffold(
         topBar       = { TopAppBar(navigationIcon = arrowBack(onBack),
                                    title          = restaurantTitleText(restaurantName),
+                                   colors         = TopAppBarDefaults.topAppBarColors(scrolledContainerColor = MaterialTheme.colorScheme.background),
                                    scrollBehavior = scrollBehavior) },
         snackbarHost = { SnackbarHost(snackBarHostState) },
         content      = { paddingValues ->
