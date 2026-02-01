@@ -50,19 +50,17 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             TorangTheme {
-                TestContainer()
+                val restaurantDetailContainer : @Composable (Int) -> Unit = { restaurantId ->
+                    provideRestaurantDetailContainer().invoke(restaurantId)
+                }
+                TestContainer(restaurantDetailContainer)
             }
         }
     }
 
-    @Composable
-    fun RestaurantDetailContainerTest(selectedRestaurant : Int){
-        provideRestaurantDetailContainer().invoke(selectedRestaurant)
-    }
-
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun TestContainer(){
+    fun TestContainer(restaurantDetailContainer : @Composable (Int) -> Unit = {}){
         val scaffoldState = rememberBottomSheetScaffoldState()
         val scope = rememberCoroutineScope()
         var restaurants : List<RestaurantWithFiveImages> by remember { mutableStateOf(listOf()) }
@@ -75,7 +73,6 @@ class MainActivity : ComponentActivity() {
                 }
         }
         var selectedRestaurant by remember { mutableIntStateOf(0) }
-
 
         val sheetContent = @Composable {
             LazyColumn(Modifier.fillMaxSize()) {
@@ -112,7 +109,7 @@ class MainActivity : ComponentActivity() {
             sheetContent = { sheetContent.invoke() },
         ) { innerPadding ->
             Box(Modifier.padding(innerPadding)){
-                RestaurantDetailContainerTest(selectedRestaurant)
+                restaurantDetailContainer.invoke(selectedRestaurant)
 
                 floatingButton(modifier = Modifier
                     .align(Alignment.BottomEnd)

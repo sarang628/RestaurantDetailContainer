@@ -14,6 +14,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -24,6 +25,11 @@ import com.sarang.torang.compose.restaurantdetailcontainer.type.LocalRestaurantG
 import com.sarang.torang.compose.restaurantdetailcontainer.type.LocalRestaurantMenuInRestaurantDetailContainer
 import com.sarang.torang.compose.restaurantdetailcontainer.type.LocalRestaurantOverviewInRestaurantDetailContainer
 import com.sarang.torang.compose.restaurantdetailcontainer.type.LocalRestaurantReviewInRestaurantDetailContainer
+import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantGalleryInRestaurantDetailContainer
+import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantMenuInRestaurantDetailContainer
+import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantOverviewInRestaurantDetailContainer
+import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantReviewInRestaurantDetailContainer
+
 private val tag: String = "__RestaurantNavScreen"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,17 +64,26 @@ private fun RestaurantNavScreen(onBack           : () -> Unit,
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RestaurantNavScreen(viewmodel           : RestaurantNavViewModel    = hiltViewModel(),
-                        restaurantId        : Int                       = 0,
-                        onBack              : () -> Unit                = { Log.w(tag, "onBack doesn't set") },
-                        snackBarHostState   : SnackbarHostState         = remember { SnackbarHostState() }) {
+fun RestaurantNavScreenWithModules(viewmodel           : RestaurantNavViewModel    = hiltViewModel(),
+                                   overView  : RestaurantOverviewInRestaurantDetailContainer,
+                                   menu      : RestaurantMenuInRestaurantDetailContainer,
+                                   review              : RestaurantReviewInRestaurantDetailContainer,
+                                   gallery             : RestaurantGalleryInRestaurantDetailContainer,
+                                   restaurantId        : Int                       = 0,
+                                   onBack              : () -> Unit                = { Log.w(tag, "onBack doesn't set") },
+                                   snackBarHostState   : SnackbarHostState         = remember { SnackbarHostState() }) {
     LaunchedEffect(restaurantId) {
         viewmodel.fetch(restaurantId)
     }
-    RestaurantNavScreen(onBack            = onBack,
-                        restaurantName    = viewmodel.restaurantName,
-                        restaurantId      = restaurantId,
-                        snackBarHostState = snackBarHostState)
+    CompositionLocalProvider(LocalRestaurantOverviewInRestaurantDetailContainer provides overView,
+        LocalRestaurantMenuInRestaurantDetailContainer provides menu,
+        LocalRestaurantReviewInRestaurantDetailContainer provides review,
+        LocalRestaurantGalleryInRestaurantDetailContainer provides gallery) {
+        RestaurantNavScreen(onBack            = onBack,
+            restaurantName    = viewmodel.restaurantName,
+            restaurantId      = restaurantId,
+            snackBarHostState = snackBarHostState)
+    }
 }
 
 @Preview
