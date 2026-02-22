@@ -30,7 +30,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.sarang.torang.data.RestaurantWithFiveImages
-import com.sarang.torang.di.restaurant_detail_container_di.provideRestaurantDetailContainer
+import com.sarang.torang.di.restaurant_detail_container_di.ProvideRestaurantDetailColumn
+import com.sarang.torang.di.restaurant_detail_container_di.provideRestaurantDetailPager
 import com.sarang.torang.repository.FindRepository
 import com.sryang.torang.ui.TorangTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,7 +52,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             TorangTheme {
                 val restaurantDetailContainer : @Composable (Int) -> Unit = { restaurantId ->
-                    provideRestaurantDetailContainer().invoke(restaurantId)
+                    //provideRestaurantDetailPager().invoke(restaurantId)
+                    ProvideRestaurantDetailColumn().invoke(restaurantId)
                 }
                 TestContainer(restaurantDetailContainer)
             }

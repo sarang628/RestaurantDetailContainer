@@ -14,17 +14,12 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.sarang.torang.compose.restaurantdetailcontainer.type.LocalRestaurantGalleryInRestaurantDetailContainer
-import com.sarang.torang.compose.restaurantdetailcontainer.type.LocalRestaurantMenuInRestaurantDetailContainer
-import com.sarang.torang.compose.restaurantdetailcontainer.type.LocalRestaurantOverviewInRestaurantDetailContainer
-import com.sarang.torang.compose.restaurantdetailcontainer.type.LocalRestaurantReviewInRestaurantDetailContainer
 import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantGalleryInRestaurantDetailContainer
 import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantMenuInRestaurantDetailContainer
 import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantOverviewInRestaurantDetailContainer
@@ -33,10 +28,14 @@ import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantReview
 private val tag: String = "__RestaurantNavScreen"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun RestaurantNavScreen(onBack           : () -> Unit,
-                                restaurantName   : String,
-                                restaurantId     : Int,
-                                snackBarHostState: SnackbarHostState = remember { SnackbarHostState() }) {
+private fun RestaurantDetailPagerScreen(onBack            : () -> Unit                                      = {},
+                                        restaurantName    : String                                          = "",
+                                        restaurantId      : Int                                             = 0,
+                                        snackBarHostState : SnackbarHostState                               = remember { SnackbarHostState() },
+                                        overView          : RestaurantOverviewInRestaurantDetailContainer   = {},
+                                        menu              : RestaurantMenuInRestaurantDetailContainer       = {},
+                                        review            : RestaurantReviewInRestaurantDetailContainer     = {},
+                                        gallery           : RestaurantGalleryInRestaurantDetailContainer    = {}) {
     val scrollBehavior    = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val pagerState        = rememberPagerState(0) { 4 }
     Scaffold(
@@ -49,13 +48,14 @@ private fun RestaurantNavScreen(onBack           : () -> Unit,
             Column(modifier = Modifier.padding(paddingValues = paddingValues)
                                       .nestedScroll(scrollBehavior.nestedScrollConnection)) {
                 RestaurantTopMenu(pagerState = pagerState)
+
                 HorizontalPager(state = pagerState,
                                 beyondViewportPageCount = 3) {
                     when(it){
-                        0 -> { LocalRestaurantOverviewInRestaurantDetailContainer.current.invoke(restaurantId) }
-                        1 -> { LocalRestaurantMenuInRestaurantDetailContainer.current.invoke(restaurantId) }
-                        2 -> { LocalRestaurantReviewInRestaurantDetailContainer.current.invoke(restaurantId) }
-                        3 -> { LocalRestaurantGalleryInRestaurantDetailContainer.current.invoke(restaurantId) }
+                        0 -> { overView.invoke(restaurantId) }
+                        1 -> { menu.invoke(restaurantId) }
+                        2 -> { review.invoke(restaurantId) }
+                        3 -> { gallery.invoke(restaurantId) }
                     }
                 }
             }
@@ -64,32 +64,32 @@ private fun RestaurantNavScreen(onBack           : () -> Unit,
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RestaurantNavScreenWithModules(viewmodel           : RestaurantNavViewModel    = hiltViewModel(),
-                                   overView  : RestaurantOverviewInRestaurantDetailContainer,
-                                   menu      : RestaurantMenuInRestaurantDetailContainer,
-                                   review              : RestaurantReviewInRestaurantDetailContainer,
-                                   gallery             : RestaurantGalleryInRestaurantDetailContainer,
-                                   restaurantId        : Int                       = 0,
-                                   onBack              : () -> Unit                = { Log.w(tag, "onBack doesn't set") },
-                                   snackBarHostState   : SnackbarHostState         = remember { SnackbarHostState() }) {
+fun RestaurantDetailPagerWithModules(viewmodel           : RestaurantNavViewModel    = hiltViewModel(),
+                                     overView            : RestaurantOverviewInRestaurantDetailContainer,
+                                     menu                : RestaurantMenuInRestaurantDetailContainer,
+                                     review              : RestaurantReviewInRestaurantDetailContainer,
+                                     gallery             : RestaurantGalleryInRestaurantDetailContainer,
+                                     restaurantId        : Int                       = 0,
+                                     onBack              : () -> Unit                = { Log.w(tag, "onBack doesn't set") },
+                                     snackBarHostState   : SnackbarHostState         = remember { SnackbarHostState() }) {
     LaunchedEffect(restaurantId) {
         viewmodel.fetch(restaurantId)
     }
-    CompositionLocalProvider(LocalRestaurantOverviewInRestaurantDetailContainer provides overView,
-        LocalRestaurantMenuInRestaurantDetailContainer provides menu,
-        LocalRestaurantReviewInRestaurantDetailContainer provides review,
-        LocalRestaurantGalleryInRestaurantDetailContainer provides gallery) {
-        RestaurantNavScreen(onBack            = onBack,
-            restaurantName    = viewmodel.restaurantName,
-            restaurantId      = restaurantId,
-            snackBarHostState = snackBarHostState)
-    }
+
+    RestaurantDetailPagerScreen(onBack            = onBack,
+                                restaurantName    = viewmodel.restaurantName,
+                                restaurantId      = restaurantId,
+                                snackBarHostState = snackBarHostState,
+                                menu              = menu,
+                                review            = review,
+                                gallery           = gallery,
+                                overView          = overView)
 }
 
 @Preview
 @Composable
-fun PreviewRestaurantNavScreen() {
-    RestaurantNavScreen(onBack          = {},
+fun PreviewRestaurantDetailPagerScreen() {
+    RestaurantDetailPagerScreen(onBack          = {}, //Preview
                         restaurantName  = "restaurantName",
                         restaurantId    = 234)
 }
