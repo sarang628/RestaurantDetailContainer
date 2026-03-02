@@ -1,8 +1,13 @@
 package com.sarang.torang.compose.restaurantdetailcontainer
 
 import android.util.Log
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -10,6 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -19,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantGalleryInRestaurantDetailContainer
 import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantMenuInRestaurantDetailContainer
@@ -47,11 +54,27 @@ private fun RestaurantDetailColumnScreen(onBack            : () -> Unit         
                                    scrollBehavior = scrollBehavior) },
         snackbarHost = { SnackbarHost(snackBarHostState) },
         content      = { paddingValues ->
-            Column(modifier = Modifier.padding(paddingValues = paddingValues)
-                                      .nestedScroll(scrollBehavior.nestedScrollConnection)) {
-                RestaurantTopMenu(pagerState = pagerState)
+            LazyColumn(modifier = Modifier.padding(paddingValues = paddingValues)) {
+                item {
+                    RestaurantTopMenu(pagerState = pagerState)
+                }
 
-                restaurantOverviewInfo.invoke(restaurantId)
+                item {
+                    restaurantOverviewInfo.invoke(restaurantId)
+                }
+
+                item {
+                    menu.invoke(restaurantId)
+                }
+
+                item {
+                    review.invoke(restaurantId)
+                }
+
+                item {
+                    //gallery.invoke(restaurantId)
+                }
+
 
                 /*HorizontalPager(state = pagerState,
                                 beyondViewportPageCount = 3) {

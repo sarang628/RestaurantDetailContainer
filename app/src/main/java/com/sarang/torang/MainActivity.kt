@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TorangTheme {
                 val restaurantDetailContainer : @Composable (Int) -> Unit = { restaurantId ->
-                    //provideRestaurantDetailPager().invoke(restaurantId)
+//                    provideRestaurantDetailPager().invoke(restaurantId)
                     ProvideRestaurantDetailColumn().invoke(restaurantId)
                 }
                 TestContainer(restaurantDetailContainer)
