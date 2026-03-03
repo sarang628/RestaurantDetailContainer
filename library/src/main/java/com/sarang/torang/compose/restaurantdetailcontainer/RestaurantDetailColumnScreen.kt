@@ -1,118 +1,124 @@
 package com.sarang.torang.compose.restaurantdetailcontainer
 
 import android.util.Log
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantGalleryInRestaurantDetailContainer
-import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantMenuInRestaurantDetailContainer
-import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantOverviewInRestaurantDetailContainer
-import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantOverviewRestaurantInfo
-import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantReviewInRestaurantDetailContainer
+import com.sarang.torang.compose.restaurantdetailcontainer.type.Gallery
+import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantInfo
 
 private val tag: String = "__RestaurantNavScreen"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun RestaurantDetailColumnScreen(onBack            : () -> Unit                                      = {},
-                                        restaurantName    : String                                          = "",
-                                        restaurantId      : Int                                             = 0,
-                                        snackBarHostState : SnackbarHostState                               = remember { SnackbarHostState() },
-                                        overView          : RestaurantOverviewInRestaurantDetailContainer   = {},
-                                        menu              : RestaurantMenuInRestaurantDetailContainer       = {},
-                                        review            : RestaurantReviewInRestaurantDetailContainer     = {},
-                                        gallery           : RestaurantGalleryInRestaurantDetailContainer    = {},
-                                        restaurantOverviewInfo : RestaurantOverviewRestaurantInfo           = {}) {
+private fun RestaurantDetailColumnScreen(onBack                 : () -> Unit        = {},
+                                         restaurantName         : String            = "",
+                                         restaurantId           : Int               = 0,
+                                         snackBarHostState      : SnackbarHostState = remember { SnackbarHostState() },
+                                         reviewListContent      : LazyListScope.() -> Unit = {},
+                                         galleryContent         : LazyListScope.() -> Unit = {},
+                                         restaurantInfo         : RestaurantInfo    = {},
+                                         menuListContent        : LazyListScope.() -> Unit = {},
+                                         menuItemCount          : Int = 0,
+                                         reviewItemCount        : Int = 0,
+                                         galleryItemCount       : Int = 0,
+                                         ) {
     val scrollBehavior    = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-    val pagerState        = rememberPagerState(0) { 4 }
+    val state: LazyListState = rememberLazyListState()
+    var selectedTabIndex by remember { mutableStateOf(0) }
+
+    LaunchedEffect(Unit) {
+        snapshotFlow { state.layoutInfo.visibleItemsInfo.first().index }
+            .collect {
+                Log.d(tag, "visible = $it")
+                Log.d(tag, "menuItemCount = $menuItemCount")
+                if(it <= 1){
+                    selectedTabIndex = 0
+                }else if(it in 2 until menuItemCount){
+                    selectedTabIndex = 1
+                }else if(it in 10 until 15){
+                    selectedTabIndex = 2
+                }
+
+            }
+    }
+
     Scaffold(
-        topBar       = { TopAppBar(navigationIcon = arrowBack(onBack),
-                                   title          = restaurantTitleText(restaurantName),
-                                   colors         = TopAppBarDefaults.topAppBarColors(scrolledContainerColor = MaterialTheme.colorScheme.background),
-                                   scrollBehavior = scrollBehavior) },
+        topBar       = {
+            Column {
+                TopAppBar(navigationIcon = arrowBack(onBack),
+                          title          = restaurantTitleText(restaurantName),
+                          colors         = TopAppBarDefaults.topAppBarColors(scrolledContainerColor = MaterialTheme.colorScheme.background),
+                          scrollBehavior = scrollBehavior)
+                RestaurantTopMenu(selectedTabIndex = selectedTabIndex)
+            }
+                       },
         snackbarHost = { SnackbarHost(snackBarHostState) },
         content      = { paddingValues ->
-            LazyColumn(modifier = Modifier.padding(paddingValues = paddingValues)) {
-                item {
-                    RestaurantTopMenu(pagerState = pagerState)
-                }
+            LazyColumn(modifier = Modifier.padding(paddingValues = paddingValues),
+                       state = state) {
 
-                item {
-                    restaurantOverviewInfo.invoke(restaurantId)
-                }
+                item { restaurantInfo.invoke(restaurantId) }
 
-                item {
-                    menu.invoke(restaurantId)
-                }
+                menuListContent.invoke(this)
 
-                item {
-                    review.invoke(restaurantId)
-                }
+                reviewListContent.invoke(this)
 
-                item {
-                    //gallery.invoke(restaurantId)
-                }
+                galleryContent.invoke(this)
 
-
-                /*HorizontalPager(state = pagerState,
-                                beyondViewportPageCount = 3) {
-                    when(it){
-                        0 -> { overView.invoke(restaurantId) }
-                        1 -> { menu.invoke(restaurantId) }
-                        2 -> { review.invoke(restaurantId) }
-                        3 -> { gallery.invoke(restaurantId) }
-                    }
-                }*/
             }
         })
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RestaurantDetailColumnScreenWithModules(viewmodel           : RestaurantNavViewModel    = hiltViewModel(),
-                                     overView            : RestaurantOverviewInRestaurantDetailContainer,
-                                     menu                : RestaurantMenuInRestaurantDetailContainer,
-                                     review              : RestaurantReviewInRestaurantDetailContainer,
-                                     gallery             : RestaurantGalleryInRestaurantDetailContainer,
-                                     restaurantOverviewInfo : RestaurantOverviewRestaurantInfo           = {},
-                                     restaurantId        : Int                       = 0,
-                                     onBack              : () -> Unit                = { Log.w(tag, "onBack doesn't set") },
-                                     snackBarHostState   : SnackbarHostState         = remember { SnackbarHostState() }) {
+fun RestaurantDetailColumnScreenWithModules(viewmodel               : RestaurantNavViewModel    = hiltViewModel(),
+                                            reviewListContent      : LazyListScope.() -> Unit = {},
+                                            restaurantOverviewInfo : RestaurantInfo             = { },
+                                            restaurantId            : Int                       = 0,
+                                            onBack                  : () -> Unit                = { Log.w(tag, "onBack doesn't set") },
+                                            snackBarHostState       : SnackbarHostState         = remember { SnackbarHostState() },
+                                            galleryContent         : LazyListScope.() -> Unit = {},
+                                            menuListcontent        : LazyListScope.() -> Unit = {},
+                                            menuItemCount          : Int = 0,
+                                            reviewItemCount        : Int = 0,
+                                            galleryItemCount       : Int = 0,) {
     LaunchedEffect(restaurantId) {
         viewmodel.fetch(restaurantId)
     }
 
-    RestaurantDetailColumnScreen(onBack            = onBack,
-                                restaurantName    = viewmodel.restaurantName,
-                                restaurantId      = restaurantId,
-                                snackBarHostState = snackBarHostState,
-                                menu              = menu,
-                                review            = review,
-                                gallery           = gallery,
-                                overView          = overView,
-                                    restaurantOverviewInfo = restaurantOverviewInfo)
+    RestaurantDetailColumnScreen(onBack             = onBack,
+                                 restaurantName     = viewmodel.restaurantName,
+                                 restaurantId       = restaurantId,
+                                 snackBarHostState  = snackBarHostState,
+                                 menuListContent    = menuListcontent,
+                                 reviewListContent  = reviewListContent,
+                                 galleryContent     = galleryContent,
+                                 restaurantInfo     = restaurantOverviewInfo,
+                                 menuItemCount      = menuItemCount,
+                                 reviewItemCount    = reviewItemCount,
+                                 galleryItemCount   = galleryItemCount)
 }
 
 @Preview

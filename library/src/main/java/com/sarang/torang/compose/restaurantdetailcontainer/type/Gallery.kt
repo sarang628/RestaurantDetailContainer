@@ -5,10 +5,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 
-typealias RestaurantGalleryInRestaurantDetailContainer = @Composable (Int) -> Unit
+typealias Gallery = @Composable (Int) -> Unit
 
 val LocalRestaurantGalleryInRestaurantDetailContainer =
-    compositionLocalOf<RestaurantMenuInRestaurantDetailContainer> {
+    compositionLocalOf<MenuList> {
         @Composable {
             Text("no RestaurantGalleryInRestaurantDetailContainer")
             Log.w("__RestaurantGalleryInRestaurantDetailContainer", "no RestaurantGalleryInRestaurantDetailContainer")

@@ -15,16 +15,17 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RestaurantTopMenu(pagerState: PagerState = rememberPagerState(0) { 0 }) {
+fun RestaurantTopMenu(selectedTabIndex : Int = 0,
+    pagerState: PagerState = rememberPagerState(0) { 0 }) {
     val scope = rememberCoroutineScope()
     val titles = listOf("overview", "menu", "review", "gallery")
     Column {
         PrimaryTabRow(
-            selectedTabIndex = pagerState.currentPage
+            selectedTabIndex = selectedTabIndex
         ) {
             titles.forEachIndexed { index, title ->
                 Tab(
-                    selected = pagerState.currentPage == index,
+                    selected = selectedTabIndex == index,
                     onClick = {
                         scope.launch {
                             pagerState.animateScrollToPage(index)

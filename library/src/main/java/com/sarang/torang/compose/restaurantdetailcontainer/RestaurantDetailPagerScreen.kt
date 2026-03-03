@@ -20,10 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantGalleryInRestaurantDetailContainer
-import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantMenuInRestaurantDetailContainer
+import com.sarang.torang.compose.restaurantdetailcontainer.type.Gallery
+import com.sarang.torang.compose.restaurantdetailcontainer.type.MenuList
 import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantOverviewInRestaurantDetailContainer
-import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantReviewInRestaurantDetailContainer
+import com.sarang.torang.compose.restaurantdetailcontainer.type.ReviewList
 
 private val tag: String = "__RestaurantNavScreen"
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,9 +33,9 @@ private fun RestaurantDetailPagerScreen(onBack            : () -> Unit          
                                         restaurantId      : Int                                             = 0,
                                         snackBarHostState : SnackbarHostState                               = remember { SnackbarHostState() },
                                         overView          : RestaurantOverviewInRestaurantDetailContainer   = {},
-                                        menu              : RestaurantMenuInRestaurantDetailContainer       = {},
-                                        review            : RestaurantReviewInRestaurantDetailContainer     = {},
-                                        gallery           : RestaurantGalleryInRestaurantDetailContainer    = {}) {
+                                        menu              : MenuList       = {},
+                                        review            : ReviewList     = {},
+                                        gallery           : Gallery    = {}) {
     val scrollBehavior    = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val pagerState        = rememberPagerState(0) { 4 }
     Scaffold(
@@ -66,9 +66,9 @@ private fun RestaurantDetailPagerScreen(onBack            : () -> Unit          
 @Composable
 fun RestaurantDetailPagerWithModules(viewmodel           : RestaurantNavViewModel    = hiltViewModel(),
                                      overView            : RestaurantOverviewInRestaurantDetailContainer,
-                                     menu                : RestaurantMenuInRestaurantDetailContainer,
-                                     review              : RestaurantReviewInRestaurantDetailContainer,
-                                     gallery             : RestaurantGalleryInRestaurantDetailContainer,
+                                     menu                : MenuList,
+                                     review              : ReviewList,
+                                     gallery             : Gallery,
                                      restaurantId        : Int                       = 0,
                                      onBack              : () -> Unit                = { Log.w(tag, "onBack doesn't set") },
                                      snackBarHostState   : SnackbarHostState         = remember { SnackbarHostState() }) {

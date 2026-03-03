@@ -31,7 +31,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.sarang.torang.data.RestaurantWithFiveImages
 import com.sarang.torang.di.restaurant_detail_container_di.ProvideRestaurantDetailColumn
-import com.sarang.torang.di.restaurant_detail_container_di.provideRestaurantDetailPager
 import com.sarang.torang.repository.FindRepository
 import com.sryang.torang.ui.TorangTheme
 import dagger.hilt.android.AndroidEntryPoint
