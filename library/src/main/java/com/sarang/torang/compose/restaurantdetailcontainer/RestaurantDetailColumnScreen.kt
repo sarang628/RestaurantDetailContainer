@@ -13,6 +13,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -21,6 +22,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
@@ -28,6 +30,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sarang.torang.compose.restaurantdetailcontainer.type.Gallery
 import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantInfo
+import kotlinx.coroutines.launch
+import java.util.Objects
 
 private val tag: String = "__RestaurantNavScreen"
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,18 +51,24 @@ private fun RestaurantDetailColumnScreen(onBack                 : () -> Unit    
     val scrollBehavior    = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val state: LazyListState = rememberLazyListState()
     var selectedTabIndex by remember { mutableStateOf(0) }
+    val coroutine = rememberCoroutineScope()
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(key1 = reviewItemCount,menuItemCount, galleryItemCount) {
         snapshotFlow { state.layoutInfo.visibleItemsInfo.first().index }
             .collect {
-                Log.d(tag, "visible = $it")
-                Log.d(tag, "menuItemCount = $menuItemCount")
-                if(it <= 1){
+                val overview = 0
+                val menu = 1
+                val review = menu + menuItemCount
+                val gallery = review + reviewItemCount
+                Log.d(tag, "$reviewItemCount")
+                if(it == overview){
                     selectedTabIndex = 0
-                }else if(it in 2 until menuItemCount){
+                }else if(it in menu until review){
                     selectedTabIndex = 1
-                }else if(it in 10 until 15){
+                }else if(it in review until gallery){
                     selectedTabIndex = 2
+                }else{
+                    selectedTabIndex = 3
                 }
 
             }
@@ -71,7 +81,17 @@ private fun RestaurantDetailColumnScreen(onBack                 : () -> Unit    
                           title          = restaurantTitleText(restaurantName),
                           colors         = TopAppBarDefaults.topAppBarColors(scrolledContainerColor = MaterialTheme.colorScheme.background),
                           scrollBehavior = scrollBehavior)
-                RestaurantTopMenu(selectedTabIndex = selectedTabIndex)
+                RestaurantTopMenu(selectedTabIndex = selectedTabIndex,
+                                  onSelectTab = {
+                                      coroutine.launch {
+                                          when(it){
+                                              0 -> { state.animateScrollToItem(0) }
+                                              1 -> { state.animateScrollToItem(1) }
+                                              2 -> { state.animateScrollToItem(menuItemCount+1) }
+                                              3 -> { state.animateScrollToItem(menuItemCount+1+reviewItemCount ) }
+                                          }
+                                      }
+                                  })
             }
                        },
         snackbarHost = { SnackbarHost(snackBarHostState) },
@@ -103,7 +123,7 @@ fun RestaurantDetailColumnScreenWithModules(viewmodel               : Restaurant
                                             menuListcontent        : LazyListScope.() -> Unit = {},
                                             menuItemCount          : Int = 0,
                                             reviewItemCount        : Int = 0,
-                                            galleryItemCount       : Int = 0,) {
+                                            galleryItemCount       : Int = 0) {
     LaunchedEffect(restaurantId) {
         viewmodel.fetch(restaurantId)
     }
@@ -119,6 +139,7 @@ fun RestaurantDetailColumnScreenWithModules(viewmodel               : Restaurant
                                  menuItemCount      = menuItemCount,
                                  reviewItemCount    = reviewItemCount,
                                  galleryItemCount   = galleryItemCount)
+
 }
 
 @Preview

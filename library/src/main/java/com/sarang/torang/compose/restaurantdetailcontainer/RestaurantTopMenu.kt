@@ -15,8 +15,10 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RestaurantTopMenu(selectedTabIndex : Int = 0,
-    pagerState: PagerState = rememberPagerState(0) { 0 }) {
+fun RestaurantTopMenu(selectedTabIndex  : Int           = 0,
+                      pagerState        : PagerState    = rememberPagerState(0) { 0 },
+                      onSelectTab       : (Int)->Unit      = {}
+) {
     val scope = rememberCoroutineScope()
     val titles = listOf("overview", "menu", "review", "gallery")
     Column {
@@ -30,6 +32,7 @@ fun RestaurantTopMenu(selectedTabIndex : Int = 0,
                         scope.launch {
                             pagerState.animateScrollToPage(index)
                         }
+                        onSelectTab.invoke(index)
                     },
                     text = { Text(text = title, maxLines = 1, overflow = TextOverflow.Ellipsis) }
                 )
