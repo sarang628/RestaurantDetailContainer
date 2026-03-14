@@ -36,7 +36,8 @@ import java.util.Objects
 private val tag: String = "__RestaurantNavScreen"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun RestaurantDetailColumnScreen(onBack                 : () -> Unit        = {},
+private fun RestaurantDetailColumnScreen(modifier               : Modifier          = Modifier,
+                                         onBack                 : () -> Unit        = {},
                                          restaurantName         : String            = "",
                                          restaurantId           : Int               = 0,
                                          snackBarHostState      : SnackbarHostState = remember { SnackbarHostState() },
@@ -74,7 +75,7 @@ private fun RestaurantDetailColumnScreen(onBack                 : () -> Unit    
             }
     }
 
-    Scaffold(
+    Scaffold(modifier = modifier,
         topBar       = {
             Column {
                 TopAppBar(navigationIcon = arrowBack(onBack),
