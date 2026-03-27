@@ -7,13 +7,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -28,10 +26,8 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.sarang.torang.compose.restaurantdetailcontainer.type.Gallery
 import com.sarang.torang.compose.restaurantdetailcontainer.type.RestaurantInfo
 import kotlinx.coroutines.launch
-import java.util.Objects
 
 private val tag: String = "__RestaurantNavScreen"
 @OptIn(ExperimentalMaterial3Api::class)
@@ -121,7 +117,7 @@ fun RestaurantDetailColumnScreenWithModules(viewmodel               : Restaurant
                                             onBack                  : () -> Unit                = { Log.w(tag, "onBack doesn't set") },
                                             snackBarHostState       : SnackbarHostState         = remember { SnackbarHostState() },
                                             galleryContent         : LazyListScope.() -> Unit = {},
-                                            menuListcontent        : LazyListScope.() -> Unit = {},
+                                            menuListContent        : LazyListScope.() -> Unit = {},
                                             menuItemCount          : Int = 0,
                                             reviewItemCount        : Int = 0,
                                             galleryItemCount       : Int = 0) {
@@ -133,7 +129,7 @@ fun RestaurantDetailColumnScreenWithModules(viewmodel               : Restaurant
                                  restaurantName     = viewmodel.restaurantName,
                                  restaurantId       = restaurantId,
                                  snackBarHostState  = snackBarHostState,
-                                 menuListContent    = menuListcontent,
+                                 menuListContent    = menuListContent,
                                  reviewListContent  = reviewListContent,
                                  galleryContent     = galleryContent,
                                  restaurantInfo     = restaurantOverviewInfo,
