@@ -18,6 +18,7 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -49,14 +50,17 @@ private fun RestaurantDetailColumnScreen(modifier               : Modifier      
     val state: LazyListState = rememberLazyListState()
     var selectedTabIndex by remember { mutableStateOf(0) }
     val coroutine = rememberCoroutineScope()
+    val overview = 0
+    val menu = 1
+    var review by remember { mutableIntStateOf(menu + menuItemCount+1) }
+    var gallery by remember { mutableIntStateOf(review + reviewItemCount + 1) }
+
 
     LaunchedEffect(key1 = reviewItemCount,menuItemCount, galleryItemCount) {
         snapshotFlow { state.layoutInfo.visibleItemsInfo.first().index }
             .collect {
-                val overview = 0
-                val menu = 1
-                val review = menu + menuItemCount
-                val gallery = review + reviewItemCount
+                review = menu + menuItemCount + 1
+                gallery = review + reviewItemCount + 1
                 Log.d(tag, "$reviewItemCount")
                 if(it == overview){
                     selectedTabIndex = 0
@@ -84,8 +88,8 @@ private fun RestaurantDetailColumnScreen(modifier               : Modifier      
                                           when(it){
                                               0 -> { state.animateScrollToItem(0) }
                                               1 -> { state.animateScrollToItem(1) }
-                                              2 -> { state.animateScrollToItem(menuItemCount+1) }
-                                              3 -> { state.animateScrollToItem(menuItemCount+1+reviewItemCount ) }
+                                              2 -> { state.animateScrollToItem(review) }
+                                              3 -> { state.animateScrollToItem(gallery ) }
                                           }
                                       }
                                   })
