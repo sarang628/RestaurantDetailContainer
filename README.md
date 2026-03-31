@@ -20,6 +20,7 @@ ependencies {
 - JetpackCompose
   - enterAlwaysScrollBehavior
 - Android App Architecture
+- CompositionLocalProvider
 
 ## [Hilt 추가](https://github.com/sarang628/HiltTest?tab=readme-ov-file#for-torang)
 
