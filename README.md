@@ -21,6 +21,7 @@ ependencies {
   - enterAlwaysScrollBehavior
 - Android App Architecture
 - CompositionLocalProvider
+  - 이미지 로더, 피드, 확장 텍스트 기능, 스크롤 리프레시 레이아웃 등 제공 용도
 
 ## [Hilt 추가](https://github.com/sarang628/HiltTest?tab=readme-ov-file#for-torang)
 

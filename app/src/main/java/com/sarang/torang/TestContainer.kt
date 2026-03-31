@@ -46,7 +46,7 @@ fun TestContainer(findRepository : FindRepository,
                 restaurants = it
             }
     }
-    var selectedRestaurant by remember { mutableIntStateOf(0) }
+    var selectedRestaurant by remember { mutableIntStateOf(1) }
 
     val sheetContent = @Composable {
         LazyColumn(Modifier.fillMaxSize()) {
